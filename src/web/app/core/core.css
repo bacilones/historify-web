@@ -61,7 +61,13 @@ button {
 /* Menu */
 
 .navbar {
-    background: #fff;
+    background: #6fcb9f;
+    color:white;
+    padding: 5px 0px;
+}
+
+.navbar i{
+    font-size: 30px;
 }
 
 .navbar-nav > li > a {
