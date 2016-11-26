@@ -28,10 +28,15 @@ build/Release
 
 # Dependency directories
 node_modules
+bower_components
 jspm_packages
+
+develop
+.DS_Store
 
 # Optional npm cache directory
 .npm
 
 # Optional REPL history
 .node_repl_history
+.eslintrc

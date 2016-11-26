@@ -1,0 +1,55 @@
+{
+  "name": "historify-web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "develop": "nginx && gulp serve && nginx -s stop"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bacilones/historify-web.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bacilones/historify-web/issues"
+  },
+  "homepage": "https://github.com/bacilones/historify-web#readme",
+  "devDependencies": {
+        "babel-preset-es2015": "^6.14.0",
+        "bower": "^1.7.7",
+        "browser-sync": "^2.16.0",
+        "chai": "^3.5.0",
+        "chai-as-promised": "^5.2.0",
+        "chai-http": "^3.0.0",
+        "chalk": "^1.1.3",
+        "del": "^2.2.1",
+        "gulp": "git+https://git@github.com/gulpjs/gulp.git#4.0",
+        "gulp-autoprefixer": "^3.1.1",
+        "gulp-babel": "^6.1.2",
+        "gulp-htmlmin": "^3.0.0",
+        "gulp-inject": "^3.0.0",
+        "gulp-jsdoc3": "^1.0.1",
+        "gulp-minify-css": "^1.2.4",
+        "gulp-mocha": "^2.2.0",
+        "gulp-ng-annotate": "^2.0.0",
+        "gulp-nodemon": "^2.1.0",
+        "gulp-rename": "^1.2.2",
+        "gulp-uglify": "^2.0.0",
+        "gulp-util": "^3.0.7",
+        "inquirer": "^1.2.2",
+        "jsdoc": "^3.4.0",
+        "jsonfile": "^2.4.0",
+        "main-bower-files": "^2.11.1",
+        "mocha": "^2.4.5",
+        "nodegit": "^0.16.0",
+        "rewire": "^2.5.1",
+        "semver-regex": "^1.0.0",
+        "should": "^11.1.0",
+        "sinon": "^1.17.3",
+        "sinon-chai": "^2.8.0",
+        "supertest": "^2.0.0"
+  }
+}
