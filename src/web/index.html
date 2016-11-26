@@ -26,9 +26,11 @@
     </head>
     
 <!-- BODY -->
-    <body>
+    <body ng-controller="MapController">
     
-    Hagamos Historia!!
+    Hagamos Historia!! {{ texto }}
+
+    <div id="map" ng-click="initMap()" >{{ texto }}</div>
 
     
     <div id="wrapper"> 
