@@ -8,10 +8,8 @@
         var newMarker = true;
         var milestone = '../resources/img/milestone.png';
         var milestoneAjeno = '../resources/img/milestoneAjeno.png';
-
-
-        // This example adds a marker to indicate the position of USS,
-
+        
+        // Obtiene la data de los eventos desde la API 
         $scope.getData = function() {
             var request = {
                 method: 'GET',
@@ -25,10 +23,10 @@
                 });
         };
 
+        // Inicializacion del Mapa        
         $scope.initMap = function() {
             $scope.getData()
                 .then(function(events) {
-                    console.log(events);
 
                     var map = new google.maps.Map(document.getElementById('map'), {
                         zoom: 18,
@@ -63,7 +61,7 @@
             });
         }
 
-        // Adds a marker to the map.
+        // Adds a new marker to the map.
         function addNewMarker(location, map) {
             // Add the marker at the clicked location, and add the next-available label
             // from the array of alphabetical characters.
