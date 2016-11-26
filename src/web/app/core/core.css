@@ -64,6 +64,7 @@ button {
     background: #6fcb9f;
     color:white;
     padding: 5px 0px;
+    margin-bottom: 0px;
 }
 
 .navbar i{
@@ -582,4 +583,8 @@ input[type=checkbox]:checked + label:before {
 .custom-popup-wrapper li:focus a,
 .custom-popup-wrapper li:hover a {
     color: #fff;
+}
+
+#map{
+    height:100%;
 }
