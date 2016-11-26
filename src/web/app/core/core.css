@@ -67,6 +67,10 @@ button {
     margin-bottom: 0px;
 }
 
+.navbar-inverse{
+    border-color: #6fcb9f;
+}
+
 .navbar i{
     font-size: 30px;
 }
