@@ -1,0 +1,1 @@
+"use strict";!function(){function i(){}var o=angular.module("historify.core"),n={appTitle:"Historify Web UI",version:"0.0.1"};o.value("config",n),o.config(i)}();

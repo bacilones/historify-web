@@ -1,4 +1,24 @@
+(function(){
+    'use strict';
 
+    angular.module('historify', ['historify.core','uiGmapgoogle-maps'])
+    .config(['uiGmapGoogleMapApiProvider', function (GoogleMapApi) {
+            GoogleMapApi.configure({
+                key: 'AIzaSyDbVhxwEY-MeBCZ_Guk-pl7tqljbAwh5sM',
+                v: '3.25',
+                libraries: 'weather,geometry,visualization'
+            });
+            //console.log(GoogleMapApi);
+        }])
+        .controller('MapController', function($scope, uiGmapGoogleMapApi){
+            console.log('Se ejecuta la mierda');
+            $scope.map = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
+ 
+
+        });
+
+})();
+/*
 (function(){
     'use strict';
 
@@ -99,4 +119,4 @@
 
     });
 
-})();
+})();*/

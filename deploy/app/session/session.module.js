@@ -1,0 +1,1 @@
+"use strict";!function(){angular.module("historify.sesion",["satellizer"])}();
