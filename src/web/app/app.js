@@ -187,9 +187,9 @@
             var centerControlDiv = document.createElement('div');
             var centerControl = new CenterControl(centerControlDiv, map);
 
-            centerControlDiv.index = 1;
+            centerControlDiv.index = 2;
             console.log('styleee', google.maps.ControlPosition.RIGHT_TOP);
-            $scope.map.controls[1].push(centerControlDiv);
+            $scope.map.controls[7].push(centerControlDiv);
 
             var request = {
                 method: 'GET',
