@@ -17,9 +17,6 @@ const prefix         = require('gulp-autoprefixer');
 const htmlmin        = require('gulp-htmlmin');
 
 
-// Deploy Tasks
-//const tasks = require('./tasks/deploy/task');
-
 // Origin and destination paths
 const path = {
     source: {
@@ -296,14 +293,14 @@ gulp.task('copy-dev', gulp.series('clean-dev', function () {
     };
 
     function adjustVendorFiles() {
-        //vendors min
-        var vendorFiles = _.map(mainBowerFiles(),
-            function (path) {
+        var vendorFiles = _.map(
+            mainBowerFiles(),
+            function(path) {
                 var nuevoPath = path.replace(/.([^.]+)$/g, '.min.$1');
                 return exists(nuevoPath) ? nuevoPath : path;
-            });
+        });
 
-        vendorFiles.forEach(function (path, index, arr) {
+        vendorFiles.forEach(function(path, index, arr) {
             var jsMap = path + '.map';
             if (exists(jsMap)) {
                 arr.push(jsMap);
@@ -332,30 +329,6 @@ gulp.task('copy-dev', gulp.series('clean-dev', function () {
 
 
 /**
- * pre-deploy
- * Validations before deploy
- */
-
-//gulp.task('pre-deploy', tasks.preDeploy);
-
-
-/**
- * deploy-process
- * Atomatization of Becual deployment process
- */
-
-//gulp.task('deploy-process', tasks.deploy)
-
-
-/**
- * deploy
- * Validate,  copy files minified to deploy folder then, run deploy-process task
- */
-
-//gulp.task('deploy', gulp.series('pre-deploy', 'copy-prod', 'deploy-process'));
-
-
-/**
  * Watch for changes to rewrite files on development
  */
 
@@ -379,7 +352,6 @@ gulp.task('serve', gulp.series('copy-dev', function() {
         proxy       : 'http://localhost:1414',
         open        : false
     });
-
 
     return gulp.task('watch')();
 }));
