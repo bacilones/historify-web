@@ -8,7 +8,7 @@
                 key: 'AIzaSyDbVhxwEY-MeBCZ_Guk-pl7tqljbAwh5sM',
                 v: '3',
                 libraries: 'weather,geometry,visualization'
-            })
+            });
             //console.log(GoogleMapApi);
         }])
         .config(function ($authProvider) {
