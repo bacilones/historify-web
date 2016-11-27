@@ -47,15 +47,14 @@
             function CenterControl(controlDiv, map) {
               // Set CSS for the control border.
               var controlUI = document.createElement('div');
-              controlUI.style.backgroundColor = '#6fcb9f';
-              controlUI.style.border = '2px solid #6fcb9f';
+
+              controlUI.style.backgroundColor = '#45a2d1';
+              controlUI.style.border = '2px solid #45a2d1';
               controlUI.style.borderRadius = '50px';
               controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
               controlUI.style.cursor = 'pointer';
               controlUI.style.marginTop = '100px';
-              console.log(controlUI.style);
 
-              controlUI.style.alignSelf = 'right';
               // controlUI.style.textAlign = 'center';
               controlUI.title = 'Click to recenter the map';
               controlDiv.appendChild(controlUI);
@@ -64,7 +63,8 @@
               var controlText = document.createElement('div');
               controlText.style.color = 'rgb(25,25,25)';
               controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-              controlText.style.fontSize = '35px';
+              controlText.style.fontSize = '30px';
+              controlText.style.color = '#ffffff';
               controlText.style.lineHeight = '38px';
               controlText.style.paddingLeft = '10px';
               controlText.style.paddingRight = '10px';
@@ -101,15 +101,95 @@
                 center: {
                     lat: -33.434678,
                     lng: -70.635780
-                }
+                },
+                styles: [
+                    {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
+                    {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
+                    {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
+                    {
+                      featureType: 'administrative.locality',
+                      elementType: 'labels.text.fill',
+                      stylers: [{color: '#d59563'}]
+                    },
+                    {
+                      featureType: 'poi',
+                      elementType: 'labels.text.fill',
+                      stylers: [{color: '#d59563'}]
+                    },
+                    {
+                      featureType: 'poi.park',
+                      elementType: 'geometry',
+                      stylers: [{color: '#263c3f'}]
+                    },
+                    {
+                      featureType: 'poi.park',
+                      elementType: 'labels.text.fill',
+                      stylers: [{color: '#6b9a76'}]
+                    },
+                    {
+                      featureType: 'road',
+                      elementType: 'geometry',
+                      stylers: [{color: '#38414e'}]
+                    },
+                    {
+                      featureType: 'road',
+                      elementType: 'geometry.stroke',
+                      stylers: [{color: '#212a37'}]
+                    },
+                    {
+                      featureType: 'road',
+                      elementType: 'labels.text.fill',
+                      stylers: [{color: '#9ca5b3'}]
+                    },
+                    {
+                      featureType: 'road.highway',
+                      elementType: 'geometry',
+                      stylers: [{color: '#746855'}]
+                    },
+                    {
+                      featureType: 'road.highway',
+                      elementType: 'geometry.stroke',
+                      stylers: [{color: '#1f2835'}]
+                    },
+                    {
+                      featureType: 'road.highway',
+                      elementType: 'labels.text.fill',
+                      stylers: [{color: '#f3d19c'}]
+                    },
+                    {
+                      featureType: 'transit',
+                      elementType: 'geometry',
+                      stylers: [{color: '#2f3948'}]
+                    },
+                    {
+                      featureType: 'transit.station',
+                      elementType: 'labels.text.fill',
+                      stylers: [{color: '#d59563'}]
+                    },
+                    {
+                      featureType: 'water',
+                      elementType: 'geometry',
+                      stylers: [{color: '#17263c'}]
+                    },
+                    {
+                      featureType: 'water',
+                      elementType: 'labels.text.fill',
+                      stylers: [{color: '#515c6d'}]
+                    },
+                    {
+                      featureType: 'water',
+                      elementType: 'labels.text.stroke',
+                      stylers: [{color: '#17263c'}]
+                    }
+                  ]
             });
 
             var centerControlDiv = document.createElement('div');
             var centerControl = new CenterControl(centerControlDiv, map);
 
             centerControlDiv.index = 1;
-
-            $scope.map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
+            console.log('styleee', google.maps.ControlPosition.RIGHT_TOP);
+            $scope.map.controls[1].push(centerControlDiv);
 
             var request = {
                 method: 'GET',
@@ -135,8 +215,8 @@
                            position: new google.maps.LatLng(mark.lat,mark.long),
                            map: $scope.map,
                            fontSize: 15,
-                           fontColor : '#232324',
-                           strokeWeight: 2,
+                           fontColor : '#ffffff',
+                           strokeWeight: 0,
                            align: 'center'
                         });
 
@@ -169,8 +249,8 @@
                                            position: new google.maps.LatLng(pov.lat, pov.long),
                                            map: $scope.map,
                                            fontSize: 15,
-                                           fontColor : '#232324',
-                                           strokeWeight: 2,
+                                           fontColor : '#ffffff',
+                                           strokeWeight: 0,
                                            align: 'center'
                                         });
 
@@ -200,8 +280,8 @@
                                        position: new google.maps.LatLng(result.data.lat, result.data.long),
                                        map: $scope.map,
                                        fontSize: 15,
-                                       fontColor : '#232324',
-                                       strokeWeight: 2,
+                                       fontColor : '#ffffff',
+                                       strokeWeight: 0,
                                        align: 'center'
                                     });
 
