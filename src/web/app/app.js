@@ -117,6 +117,153 @@
                   ]
             });
 
+            // Open new pov modal
+            $scope.addNewPointOfViewModal = function (position) {
+               var modalInstance = $uibModal.open({
+                  animation    : true,
+                  templateUrl  : './templates/addNewPointOfView.html',
+                  controller   : function($scope, $uibModalInstance, position, $http) {
+
+                    $scope.newPov = {};
+                    $scope.newPov.lat = position.lat();
+                    $scope.newPov.long = position.lng();
+                    $scope.newPov.user_id = 1;
+                    $scope.newPov.title = '';
+                    $scope.newPov.content = '';
+
+                    $scope.createEvent  = function () {
+
+                      var request = {
+                          method: 'POST',
+                          url   : 'http://api.historify.cl/historicalevent/1/pov',
+                          params : $scope.newPov
+                      };
+
+                      $http.post(request.url, $scope.newPov)
+                        .then(result => {
+                          // Here
+                          var newMarker = new google.maps.Marker({
+                              position: position,
+                              map  : $scope.map,
+                              icon : './resources/img/point_of_view.png'
+                          });
+
+                          var mapLabel = new MapLabel({
+                             text         : result.data.title,
+                             position     : new google.maps.LatLng(result.data.lat, result.data.long),
+                             map          : $rootScope.map,
+                             fontSize     : 15,
+                             fontColor    : '#ffffff',
+                             fontFamily   : 'Raleway, sans-serif',
+                             strokeWeight : 0,
+                             align        : 'center'
+                          });
+
+                          newMarker.addListener('click', function () {
+
+                            var centerControlDiv = document.createElement('div');
+                            var centerControl = new CenterControl(centerControlDiv, map);
+
+                            centerControlDiv.index = 1;
+
+                            $scope.isInPovView = true;
+
+                            $scope.map.controls[1].push(centerControlDiv);
+
+                            $scope.isInPovView = true;
+
+                            var request = {
+                                method: 'GET',
+                                url   : `http://api.historify.cl/historicalevent/${result.data.id}`
+                            };
+
+                            $http(request)
+                                .then(result => {
+                                    $scope.removeAllMarkers();
+                                    $scope.removeAllLabels();
+
+                                    result.data.point_of_views.forEach(pov => {
+
+                                        var povMarker = new google.maps.Marker({
+                                            position: {
+                                                lat: parseFloat(pov.lat),
+                                                lng: parseFloat(pov.long)
+                                            },
+                                            map   : $scope.map,
+                                            icon  : './resources/img/point_of_view.png'
+                                        });
+
+                                        var povLabel = new MapLabel({
+                                           text: pov.title,
+                                           position: new google.maps.LatLng(pov.lat, pov.long),
+                                           map: $scope.map,
+                                           fontSize: 15,
+                                           fontColor : '#ffffff',
+                                           fontFamily   : 'Raleway, sans-serif',
+                                           strokeWeight: 0,
+                                           align: 'center'
+                                        });
+
+                                        var markerInfoWindow = new google.maps.InfoWindow({
+                                            content : pov.content
+                                        });
+
+                                        povMarker.addListener('click', function () {
+                                            markerInfoWindow.open($scope.map, povMarker);
+                                        });
+
+                                        $scope.labels.push(povLabel);
+                                        $scope.markers.push(povMarker);
+                                    });
+
+                                    var mainMarker = new google.maps.Marker({
+                                        position: {
+                                            lat: parseFloat(result.data.lat),
+                                            lng: parseFloat(result.data.long)
+                                        },
+                                        map: $scope.map,
+                                        icon : './resources/img/historical_event_marker.png'
+                                    });
+
+                                    var mainLabel = new MapLabel({
+                                       text: result.data.name,
+                                       position: new google.maps.LatLng(result.data.lat, result.data.long),
+                                       map: $scope.map,
+                                       fontSize: 15,
+                                       fontColor : '#ffffff',
+                                       fontFamily   : 'Raleway, sans-serif',
+                                       strokeWeight: 0,
+                                       align: 'center'
+                                    });
+
+                                    $scope.map.setZoom(13);
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                });
+                          });
+
+                          $uibModalInstance.close();
+                        })
+                        .catch(err => {
+                          console.log(err);
+                        });
+                    };
+
+                    $scope.cancel = function() {
+                        $uibModalInstance.close();
+                    };
+                  },
+                  size         : 'sm',
+                  backdrop     : true,
+                  keyboard     : true,
+                  resolve      : {
+                    position : position
+                  }
+                });
+            };
+
+
             // Open add event modal
             $scope.addNewEventModal = function (position) {
                 var modalInstance = $uibModal.open({
@@ -166,7 +313,11 @@
 
                             centerControlDiv.index = 1;
 
+                            $scope.isInPovView = true;
+
                             $scope.map.controls[1].push(centerControlDiv);
+
+                            $scope.isInPovView = true;
 
                             var request = {
                                 method: 'GET',
@@ -260,9 +411,7 @@
                 });
             };
 
-            // Open new pov modal
-            $scope.addNewPointOfViewModal = function () {
-            };
+
 
             // Custom controll
             function CenterControl(controlDiv, map) {
@@ -292,6 +441,7 @@
 
               // Setup the click event listeners: simply set the map to Chicago.
               controlUI.addEventListener('click', function() {
+                $scope.isInPovView = false;
                 $scope.map.controls[1].clear();
                 $scope.map.setZoom(15);
                 $scope.removeAllLabels();
@@ -319,7 +469,12 @@
             // Click on map
             $scope.map.addListener('click', function(e) {
               $scope.map.panTo(e.latLng);
-              $scope.addNewEventModal(e.latLng);
+              if ($scope.isInPovView) {
+                $scope.addNewPointOfViewModal(e.latLng);
+              }
+              else {
+                $scope.addNewEventModal(e.latLng);
+              }
             });
 
             var request = {
@@ -363,12 +518,12 @@
                                 content : windowContent
                             });
 
-                            $scope.isInPovView = true;
-
                             var centerControlDiv = document.createElement('div');
                             var centerControl = new CenterControl(centerControlDiv, map);
 
                             centerControlDiv.index = 1;
+
+                            $scope.isInPovView = true;
 
                             $scope.map.controls[1].push(centerControlDiv);
 
