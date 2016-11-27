@@ -26,6 +26,7 @@
 
             $scope.markers = [];
             $scope.labels = [];
+            $scope.isInPovView = false;
 
             // Map init
             $rootScope.map = $scope.map = new google.maps.Map(document.getElementById('map'), {
@@ -160,6 +161,13 @@
 
                           newMarker.addListener('click', function () {
 
+                            var centerControlDiv = document.createElement('div');
+                            var centerControl = new CenterControl(centerControlDiv, map);
+
+                            centerControlDiv.index = 1;
+
+                            $scope.map.controls[1].push(centerControlDiv);
+
                             var request = {
                                 method: 'GET',
                                 url   : `http://api.historify.cl/historicalevent/${result.data.id}`
@@ -257,10 +265,10 @@
             };
 
             // Custom controll
-      function CenterControl(controlDiv, map) {
+            function CenterControl(controlDiv, map) {
 
-          // Set CSS for the control border.
-          var controlUI = document.createElement('div');
+              // Set CSS for the control border.
+              var controlUI = document.createElement('div');
               controlUI.style.backgroundColor = '#fff';
               controlUI.style.border = '2px solid #fff';
               controlUI.style.borderRadius = '3px';
@@ -284,9 +292,12 @@
 
               // Setup the click event listeners: simply set the map to Chicago.
               controlUI.addEventListener('click', function() {
-                map.setCenter(chicago);
+                $scope.map.controls[1].clear();
+                $scope.map.setZoom(15);
+                $scope.removeAllLabels();
+                $scope.removeAllMarkers();
+                $scope.loadMarkers();
               });
-
             }
 
             // Remove all markers
@@ -311,20 +322,14 @@
               $scope.addNewEventModal(e.latLng);
             });
 
-            var centerControlDiv = document.createElement('div');
-            var centerControl = new CenterControl(centerControlDiv, map);
-
-            centerControlDiv.index = 1;
-
-            $scope.map.controls[1].push(centerControlDiv);
-
             var request = {
                 method: 'GET',
                 url   : 'http://api.historify.cl/historicalevent',
                 params : {}
             };
 
-            $http(request)
+            $scope.loadMarkers  = function () {
+              $http(request)
                 .then(result => {
                     result.data.forEach(mark => {
 
@@ -350,6 +355,15 @@
 
 
                         marker.addListener('click', function () {
+
+                            $scope.isInPovView = true;
+
+                            var centerControlDiv = document.createElement('div');
+                            var centerControl = new CenterControl(centerControlDiv, map);
+
+                            centerControlDiv.index = 1;
+
+                            $scope.map.controls[1].push(centerControlDiv);
 
                             var request = {
                                 method: 'GET',
@@ -430,6 +444,10 @@
                 .catch(err => {
                     console.log(err);
                 });
+            }
+
+            $scope.loadMarkers();
+
         })
 
         .controller('HomeController', function($scope) {

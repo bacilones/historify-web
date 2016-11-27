@@ -1,1 +1,0 @@
-"use strict";!function(){function i(i){i.tokenPrefix="historify",i.user="user",i.loginUrl="http://api.historify.cl/user/auth",i.facebook({clientId:"1612734245701460",url:"http://api.historify.cl/user/auth/facebook"})}angular.module("historify.sesion").config(i),i.$inject=["$authProvider"]}();
