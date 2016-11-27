@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="es" ng-app="historify" ng-strict-di>
     <head>
-            
+
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">        
-        <title>Historify - Live History, Share History</title>
-
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Historify</title>
         <!-- vendor:css -->
         <!-- endinject -->
 
@@ -21,15 +20,15 @@
 
         <!-- googleFont -->
         <!-- stringInject googleFont -->
-        <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyDbVhxwEY-MeBCZ_Guk-pl7tqljbAwh5sM"></script>
+        <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDbVhxwEY-MeBCZ_Guk-pl7tqljbAwh5sM"></script>
 
     </head>
-    
+
 <!-- BODY -->
-    <body>
+    <body ng-controller='MapController'>
 
         <header>
-            
+
             <nav class="navbar navbar-inverse navbar-fixed-top">
                 <div class="container">
                     <div class="col-xs-1 text-center">
@@ -46,47 +45,37 @@
                 </div>
             </nav>
         </header>
+        <div id="map"></div>
+        <div >
+            <!-- vendor:js -->
+            <!-- endinject -->
 
+            <!-- core:js -->
+            <!-- endinject -->
 
-        <div id="map" ng-controller="MapController">
-            <ui-gmap-google-map center='map.center' zoom='map.zoom'></ui-gmap-google-map>
+            <!-- module:js -->
+            <!-- endinject -->
+
+            <!-- factory:js -->
+            <!-- endinject -->
+
+            <!-- config:js -->
+            <!-- endinject -->
+
+            <!-- directive:js -->
+            <!-- endinject -->
+
+            <!-- filter:js -->
+            <!-- endinject -->
+
+            <!-- controller:js -->
+            <!-- endinject -->
+
+            <!-- app:js -->
+            <!-- endinject -->
+
+            <!-- inject:js -->
+            <!-- endinject -->
         </div>
-        
-        <div > 
-        
-
-        <!-- vendor:js -->
-        <!-- endinject -->
-        
-        <!-- core:js -->
-        <!-- endinject -->
-
-        <!-- module:js -->
-        <!-- endinject -->
-
-        <!-- factory:js -->
-        <!-- endinject -->
-                
-        <!-- config:js -->
-        <!-- endinject -->
-
-        <!-- directive:js -->
-        <!-- endinject -->
-
-        <!-- filter:js -->
-        <!-- endinject -->
-        
-        <!-- controller:js -->
-        <!-- endinject -->
-        
-        <!-- app:js -->
-        <!-- endinject -->
-
-        <!-- inject:js -->
-        <!-- endinject -->
-    
-        
-    </div>
-
     </body>
 </html>

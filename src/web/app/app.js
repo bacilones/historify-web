@@ -1,127 +1,103 @@
-(function(){
+(function() {
     'use strict';
 
-    angular.module('historify', ['historify.core','uiGmapgoogle-maps','ngGeolocation'])
-        .controller('MapController', function($scope, uiGmapGoogleMapApi, $geolocation){
-            $scope.map = {center: {
-                latitude: -33.0,
-                longitude: -70.0
-            }, zoom: 16};
-            console.log('Se ejecuta la mierda');
-            $geolocation.getCurrentPosition(
-                {
-                    timeout: 60000
+    angular.module('historify', ['historify.core'])
+        .controller('MapController', function($scope, $http) {
+            $scope.markers = [];
+
+            $scope.removeAllMarkers = function() {
+                $scope.markers.forEach(mark => {
+                    mark.setMap(null);
+                });
+                $scope.markers = [];
+            };
+
+            $scope.map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 17,
+                center: {
+                    lat: -33.434678,
+                    lng: -70.635780
                 }
-            ).then(function(position){
-                console.log(position);
-                $scope.map = { center: 
-                                        {latitude: position.coords.latitude,
-                                            longitude: position.coords.longitude
-                                        }, 
-                               zoom: 16 };
             });
-        });
 
-})();
-/*
-(function(){
-    'use strict';
-
-    var app = angular.module('historify', ['uiGmapgoogle-maps', 'satellizer'])
-        .config(['uiGmapGoogleMapApiProvider', function (GoogleMapApi) {
-            GoogleMapApi.configure({
-                key: 'AIzaSyDbVhxwEY-MeBCZ_Guk-pl7tqljbAwh5sM',
-                v: '3',
-                libraries: 'weather,geometry,visualization'
-            });
-            //console.log(GoogleMapApi);
-        }])
-        .config(function ($authProvider) {
-            $authProvider.facebook({
-                clientId: '1612734245701460'
-            });
-        });
-
-    app.controller('MapController', function ($scope, $http, uiGmapGoogleMapApi) {
-
-        uiGmapGoogleMapApi.then(function (maps) {
-            console.log('maps',maps);
-        });
-
-        $scope.map = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
-        
-        console.log('$scope.map', $scope.map);
-
-        var newMarker = true;
-        var milestone = '../resources/img/milestone.png';
-        var milestoneAjeno = '../resources/img/milestoneAjeno.png';
-        
-        // Obtiene la data de los eventos desde la API 
-        $scope.getData = function () {
             var request = {
                 method: 'GET',
-                url: 'http://api.historify.cl/historicalevent',
-                params: {}
+                url   : 'http://api.historify.cl/historicalevent',
+                params : {}
             };
-            
-            return $http(request)
-                .then(function (response) {
-                    return response.data;
+
+            $http(request)
+                .then(result => {
+                    result.data.forEach(mark => {
+
+                       var marker = new google.maps.Marker({
+                            position: {
+                                lat: parseFloat(mark.lat),
+                                lng: parseFloat(mark.long)
+                            },
+                            label : mark.name,
+                            map: $scope.map,
+                            icon : './resources/img/historical_event_marker.png'
+                        });
+
+                        marker.addListener('click', function () {
+                            console.log('marker presed', mark.id);
+
+                            var request = {
+                                method: 'GET',
+                                url   : `http://api.historify.cl/historicalevent/${mark.id}`
+                            };
+
+                            $http(request)
+                                .then(result => {
+                                    $scope.removeAllMarkers();
+                                    result.data.point_of_views.forEach(pov => {
+
+                                        var povMarker = new google.maps.Marker({
+                                            position: {
+                                                lat: parseFloat(pov.lat),
+                                                lng: parseFloat(pov.long)
+                                            },
+                                            label : pov.title,
+                                            map   : $scope.map,
+                                            icon  : './resources/img/point_of_view.png'
+                                        });
+
+                                        var markerInfoWindow = new google.maps.InfoWindow({
+                                            content : pov.content
+                                        });
+
+                                        povMarker.addListener('click', function () {
+                                            markerInfoWindow.open($scope.map, povMarker);
+                                        });
+
+                                        $scope.markers.push(povMarker);
+                                    });
+
+                                    var mainMarker = new google.maps.Marker({
+                                        position: {
+                                            lat: parseFloat(result.data.lat),
+                                            lng: parseFloat(result.data.long)
+                                        },
+                                        label : result.data.name,
+                                        map: $scope.map,
+                                        icon : './resources/img/historical_event_marker.png'
+                                    });
+
+                                    $scope.map.setZoom(15);
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                });
+                        });
+
+                        $scope.markers.push(marker);
+                    });
+
+                    console.log('markers -->', $scope.markers);
+                })
+                .catch(err => {
+                    console.log(err);
                 });
-        };
-
-        // // Inicializacion del Mapa        
-        // $scope.initMap = function() {
-        //     $scope.getData()
-        //         .then(function(events) {
-
-        //             var map = new google.maps.Map(document.getElementById('map'), {
-        //                 zoom: 18,
-        //                 center: { lat: -33.434678, lng: -70.635780 }
-        //             });
-		        
-        //             // This event listener calls addMarker() when the map is clicked.
-        //             google.maps.event.addListener(map, 'click', function(event) {
-        //                 if (newMarker) {
-        //                     addNewMarker(event.latLng, map);
-        //                     newMarker = !newMarker;
-        //                 }
-        //             });
-
-        //             // localizamos todos los eventos en el mapa
-        //             events.forEach(function(value) {
-        //                 addMarker({ lat: Number.parseFloat(value.lat), lng: Number.parseFloat(value.long) }, map, value.name);
-        //             })
-
-        //         });
-        // }
-
-        // // Adds a marker to the map.
-        // function addMarker(location, map, event) {
-        //     // Add the marker at the clicked location, and add the next-available label
-        //     // from the array of alphabetical characters.
-        //     var marker = new google.maps.Marker({
-        //         position: location,
-        //         map: map,
-        //         icon: milestoneAjeno,
-        //         label: event
-        //     });
-        // }
-
-        // // Adds a new marker to the map.
-        // function addNewMarker(location, map) {
-        //     // Add the marker at the clicked location, and add the next-available label
-        //     // from the array of alphabetical characters.
-        //     var marker = new google.maps.Marker({
-        //         position: location,
-        //         label: 'nuevo',
-        //         map: map,
-        //         draggable: true,
-        //         icon: milestone
-        //     });
-        // }
-
-
-    });
-
-})();*/
+        });
+})();

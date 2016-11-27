@@ -1,5 +1,5 @@
 'use strict';
- 
+
 const gulp           = require('gulp');
 const mainBowerFiles = require('main-bower-files');
 const inject         = require('gulp-inject');
@@ -15,7 +15,6 @@ const ngannotate     = require('gulp-ng-annotate');
 const minify         = require('gulp-minify-css');
 const prefix         = require('gulp-autoprefixer');
 const htmlmin        = require('gulp-htmlmin');
-const jsdoc          = require('gulp-jsdoc3');
 
 
 // Deploy Tasks
@@ -53,7 +52,7 @@ const path = {
         bowerFonts : 'bower_components/**/*.{ttf,woff,woff2,eof,svg,otf}'
     },
     deploy : {
-        root      : 'deploy',        
+        root      : 'deploy',
         app       : 'deploy/app',
         appCore   : 'deploy/app/core',
         css       : 'deploy/css',
@@ -64,7 +63,7 @@ const path = {
         pago      : 'deploy/pago'
     },
     develop : {
-        root      : 'develop',        
+        root      : 'develop',
         app       : 'develop/app',
         appCore   : 'develop/app/core',
         css       : 'develop/css',
@@ -90,69 +89,69 @@ gulp.task('clean-dev', gulp.series(() => {
 
 
 /*
-* Copy Prod 
+* Copy Prod
 * Copy all front end files transpiled , annotated and minified to deploy folder.
 * Minify all vendors files
 * Inject all scripts into index.html
 */
 
 gulp.task('copy-prod', gulp.series('clean', () => {
-    let out = {    
+    let out = {
         views: gulp.src(path.source.views)
             .pipe(htmlmin({collapseWhitespace: true}))
             .pipe(gulp.dest(path.deploy.root)),
-    
+
         favicon: gulp.src(path.source.favicon)
             .pipe(gulp.dest(path.deploy.root)),
-        
+
         app: gulp.src(path.source.app)
             .pipe(babel({presets: ['es2015']}))
             .pipe(ngannotate())
             .pipe(uglify())
             .pipe(gulp.dest(path.deploy.app)),
-    
+
         appCore: gulp.src(path.source.appCore)
             .pipe(babel({presets: ['es2015']}))
             .pipe(ngannotate())
             .pipe(uglify())
             .pipe(gulp.dest(path.deploy.appCore)),
-    
+
         appModule: gulp.src(path.source.appModule)
             .pipe(babel({presets: ['es2015']}))
             .pipe(ngannotate())
             .pipe(uglify())
             .pipe(gulp.dest(path.deploy.app)),
-    
+
         appFactory: gulp.src(path.source.appFactory)
             .pipe(babel({presets: ['es2015']}))
             .pipe(ngannotate())
             .pipe(uglify())
             .pipe(gulp.dest(path.deploy.app)),
-    
+
         appConfig: gulp.src(path.source.appConfig)
             .pipe(babel({presets: ['es2015']}))
             .pipe(ngannotate())
             .pipe(uglify())
             .pipe(gulp.dest(path.deploy.app)),
-    
+
         appController: gulp.src(path.source.appController)
             .pipe(babel({presets: ['es2015']}))
             .pipe(ngannotate())
             .pipe(uglify())
             .pipe(gulp.dest(path.deploy.app)),
-    
+
         appDirective: gulp.src(path.source.appDirective)
             .pipe(babel({presets: ['es2015']}))
             .pipe(ngannotate())
             .pipe(uglify())
             .pipe(gulp.dest(path.deploy.app)),
-    
+
         appFilter: gulp.src(path.source.appFilter)
             .pipe(babel({presets: ['es2015']}))
             .pipe(ngannotate())
             .pipe(uglify())
             .pipe(gulp.dest(path.deploy.app)),
-    
+
         coreCss: gulp.src(path.source.coreCss)
             .pipe(minify())
             .pipe(prefix())
@@ -162,21 +161,21 @@ gulp.task('copy-prod', gulp.series('clean', () => {
             .pipe(minify())
             .pipe(prefix())
             .pipe(gulp.dest(path.deploy.css)),
-        
+
         resources: gulp.src(path.source.resources)
             .pipe(gulp.dest(path.deploy.resources)),
-    
+
         landing: gulp.src(path.source.landing)
             .pipe(gulp.dest(path.deploy.landing)),
-    
+
         pago: gulp.src(path.source.pago)
             .pipe(gulp.dest(path.deploy.pago)),
-        
+
         vendor: gulp.src(adjustVendorFiles())
             .pipe(gulp.dest(path.deploy.vendor)),
-        
+
         fonts: gulp.src(path.source.bowerFonts)
-            .pipe(rename({dirname: ''}))            
+            .pipe(rename({dirname: ''}))
             .pipe(gulp.dest(path.deploy.fonts))
     };
 
@@ -197,7 +196,7 @@ gulp.task('copy-prod', gulp.series('clean', () => {
 
         return vendorFiles;
     }
-    // inject references into index.html, then copy.    
+    // inject references into index.html, then copy.
     return gulp.src(path.source.index)
         .pipe(gulp.dest(path.deploy.root))
         .pipe(inject(out.app, {relative: true, name: 'app'}))
@@ -217,82 +216,82 @@ gulp.task('copy-prod', gulp.series('clean', () => {
 
 
 /**
-* Copy dev 
+* Copy dev
 * Copy all front end files without transpilation and annotated to develop folder.
 * Minify all vendors files
 * Inject all scripts into index.html
 */
 
 gulp.task('copy-dev', gulp.series('clean-dev', function () {
-    let out = {    
+    let out = {
         views: gulp.src(path.source.views)
             .pipe(gulp.dest(path.develop.root)),
-    
+
         favicon: gulp.src(path.source.favicon)
             .pipe(gulp.dest(path.develop.root)),
-        
+
         app: gulp.src(path.source.app)
             .pipe(babel({presets: ['es2015']}))
-            .pipe(ngannotate())            
+            .pipe(ngannotate())
             .pipe(gulp.dest(path.develop.app)),
-    
+
         appCore: gulp.src(path.source.appCore)
             .pipe(babel({presets: ['es2015']}))
-            .pipe(ngannotate())            
+            .pipe(ngannotate())
             .pipe(gulp.dest(path.develop.appCore)),
-    
+
         appModule: gulp.src(path.source.appModule)
             .pipe(babel({presets: ['es2015']}))
-            .pipe(ngannotate())            
+            .pipe(ngannotate())
             .pipe(gulp.dest(path.develop.app)),
-    
+
         appFactory: gulp.src(path.source.appFactory)
             .pipe(babel({presets: ['es2015']}))
-            .pipe(ngannotate())            
+            .pipe(ngannotate())
             .pipe(gulp.dest(path.develop.app)),
-    
+
         appConfig: gulp.src(path.source.appConfig)
             .pipe(babel({presets: ['es2015']}))
-            .pipe(ngannotate())            
+            .pipe(ngannotate())
             .pipe(gulp.dest(path.develop.app)),
-    
+
         appController: gulp.src(path.source.appController)
             .pipe(babel({presets: ['es2015']}))
-            .pipe(ngannotate())            
+            .pipe(ngannotate())
             .pipe(gulp.dest(path.develop.app)),
-    
+
         appDirective: gulp.src(path.source.appDirective)
             .pipe(babel({presets: ['es2015']}))
-            .pipe(ngannotate())            
+            .pipe(ngannotate())
             .pipe(gulp.dest(path.develop.app)),
-    
+
         appFilter: gulp.src(path.source.appFilter)
             .pipe(babel({presets: ['es2015']}))
-            .pipe(ngannotate())            
+            .pipe(ngannotate())
             .pipe(gulp.dest(path.develop.app)),
-    
-        coreCss: gulp.src(path.source.coreCss)            
+
+        coreCss: gulp.src(path.source.coreCss)
             .pipe(prefix())
             .pipe(gulp.dest(path.develop.css)),
 
-        css: gulp.src(path.source.css)            
+        css: gulp.src(path.source.css)
             .pipe(prefix())
             .pipe(gulp.dest(path.develop.css)),
-        
+
         resources: gulp.src(path.source.resources)
             .pipe(gulp.dest(path.develop.resources)),
-    
+
         landing: gulp.src(path.source.landing)
             .pipe(gulp.dest(path.develop.landing)),
-    
+
         pago: gulp.src(path.source.pago)
             .pipe(gulp.dest(path.develop.pago)),
-        
+
         vendor: gulp.src(adjustVendorFiles())
             .pipe(gulp.dest(path.develop.vendor)),
-        
+
         fonts: gulp.src(path.source.bowerFonts)
-            .pipe(rename({dirname: ''}))            
+            .pipe(rename({dirname: ''}))
             .pipe(gulp.dest(path.develop.fonts))
     };
 
@@ -314,7 +313,7 @@ gulp.task('copy-dev', gulp.series('clean-dev', function () {
         return vendorFiles;
     }
 
-    // inject references into index.html, then copy.    
+    // inject references into index.html, then copy.
     return gulp.src(path.source.index)
         .pipe(gulp.dest(path.develop.root))
         .pipe(inject(out.app, {relative: true, name: 'app'}))
@@ -335,7 +334,7 @@ gulp.task('copy-dev', gulp.series('clean-dev', function () {
 /**
  * pre-deploy
  * Validations before deploy
- */ 
+ */
 
 //gulp.task('pre-deploy', tasks.preDeploy);
 
@@ -343,7 +342,7 @@ gulp.task('copy-dev', gulp.series('clean-dev', function () {
 /**
  * deploy-process
  * Atomatization of Becual deployment process
- */ 
+ */
 
 //gulp.task('deploy-process', tasks.deploy)
 
@@ -351,7 +350,7 @@ gulp.task('copy-dev', gulp.series('clean-dev', function () {
 /**
  * deploy
  * Validate,  copy files minified to deploy folder then, run deploy-process task
- */ 
+ */
 
 //gulp.task('deploy', gulp.series('pre-deploy', 'copy-prod', 'deploy-process'));
 
@@ -360,9 +359,9 @@ gulp.task('copy-dev', gulp.series('clean-dev', function () {
  * Watch for changes to rewrite files on development
  */
 
-gulp.task('watch', gulp.series(function () {            
+gulp.task('watch', gulp.series(function () {
     return gulp.watch(
-        path.source.web, 
+        path.source.web,
         gulp.series('copy-dev', 'reload-browsers')
     );
 }));
@@ -377,11 +376,11 @@ gulp.task('reload-browsers', function () {
 gulp.task('serve', gulp.series('copy-dev', function() {
 
     browserSync.init(null, {
-        proxy       : 'http://localhost:1414',        
+        proxy       : 'http://localhost:1414',
         open        : false
     });
 
-    
+
     return gulp.task('watch')();
 }));
 

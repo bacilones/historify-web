@@ -31,7 +31,6 @@
         "gulp-babel": "^6.1.2",
         "gulp-htmlmin": "^3.0.0",
         "gulp-inject": "^3.0.0",
-        "gulp-jsdoc3": "^1.0.1",
         "gulp-minify-css": "^1.2.4",
         "gulp-mocha": "^2.2.0",
         "gulp-ng-annotate": "^2.0.0",
@@ -39,17 +38,7 @@
         "gulp-rename": "^1.2.2",
         "gulp-uglify": "^2.0.0",
         "gulp-util": "^3.0.7",
-        "inquirer": "^1.2.2",
-        "jsdoc": "^3.4.0",
         "jsonfile": "^2.4.0",
-        "main-bower-files": "^2.11.1",
-        "mocha": "^2.4.5",
-        "nodegit": "^0.16.0",
-        "rewire": "^2.5.1",
-        "semver-regex": "^1.0.0",
-        "should": "^11.1.0",
-        "sinon": "^1.17.3",
-        "sinon-chai": "^2.8.0",
-        "supertest": "^2.0.0"
+        "main-bower-files": "^2.11.1"
   }
 }
