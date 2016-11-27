@@ -2,7 +2,12 @@
 (function(){
     'use strict';
 
-    var app = angular.module('historify', []); 
+    var app = angular.module('historify', ['satellizer'])
+        .config(function($authProvider){
+                $authProvider.facebook({
+                    clientId: '1612734245701460'
+                });
+        }); 
     app.controller('MapController', function ($scope, $http) {
 
         var newMarker = true;
