@@ -1,20 +1,25 @@
 (function(){
     'use strict';
 
-    angular.module('historify', ['historify.core','uiGmapgoogle-maps'])
-    .config(['uiGmapGoogleMapApiProvider', function (GoogleMapApi) {
-            GoogleMapApi.configure({
-                key: 'AIzaSyDbVhxwEY-MeBCZ_Guk-pl7tqljbAwh5sM',
-                v: '3.25',
-                libraries: 'weather,geometry,visualization'
-            });
-            //console.log(GoogleMapApi);
-        }])
-        .controller('MapController', function($scope, uiGmapGoogleMapApi){
+    angular.module('historify', ['historify.core','uiGmapgoogle-maps','ngGeolocation'])
+        .controller('MapController', function($scope, uiGmapGoogleMapApi, $geolocation){
+            $scope.map = {center: {
+                latitude: -33.0,
+                longitude: -70.0
+            }, zoom: 16};
             console.log('Se ejecuta la mierda');
-            $scope.map = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
- 
-
+            $geolocation.getCurrentPosition(
+                {
+                    timeout: 60000
+                }
+            ).then(function(position){
+                console.log(position);
+                $scope.map = { center: 
+                                        {latitude: position.coords.latitude,
+                                            longitude: position.coords.longitude
+                                        }, 
+                               zoom: 16 };
+            });
         });
 
 })();
