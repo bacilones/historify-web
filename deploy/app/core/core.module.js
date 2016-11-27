@@ -1,1 +1,1 @@
-"use strict";!function(){angular.module("historify.core",["ui.bootstrap"])}();
+"use strict";!function(){angular.module("historify.core",["ui.bootstrap","ui.router"])}();
