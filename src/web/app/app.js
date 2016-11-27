@@ -22,8 +22,6 @@
             $urlRouterProvider.otherwise('/home/map');
         })
 
-
-
         .controller('MapController', function($scope, $http, $uibModal, $rootScope) {
 
             $scope.markers = [];
@@ -259,18 +257,17 @@
             };
 
             // Custom controll
-            function CenterControl(controlDiv, map) {
-              // Set CSS for the control border.
-              var controlUI = document.createElement('div');
+      function CenterControl(controlDiv, map) {
 
-              controlUI.style.backgroundColor = '#45a2d1';
-              controlUI.style.border = '2px solid #45a2d1';
-              controlUI.style.borderRadius = '50px';
+          // Set CSS for the control border.
+          var controlUI = document.createElement('div');
+              controlUI.style.backgroundColor = '#fff';
+              controlUI.style.border = '2px solid #fff';
+              controlUI.style.borderRadius = '3px';
               controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
               controlUI.style.cursor = 'pointer';
               controlUI.style.marginTop = '100px';
-
-              // controlUI.style.textAlign = 'center';
+              controlUI.style.textAlign = 'center';
               controlUI.title = 'Click to recenter the map';
               controlDiv.appendChild(controlUI);
 
@@ -278,18 +275,18 @@
               var controlText = document.createElement('div');
               controlText.style.color = 'rgb(25,25,25)';
               controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-              controlText.style.fontSize = '30px';
-              controlText.style.color = '#ffffff';
+              controlText.style.fontSize = '16px';
               controlText.style.lineHeight = '38px';
-              controlText.style.paddingLeft = '10px';
-              controlText.style.paddingRight = '10px';
-              controlText.innerHTML = '+';
+              controlText.style.paddingLeft = '5px';
+              controlText.style.paddingRight = '5px';
+              controlText.innerHTML = '← Back';
               controlUI.appendChild(controlText);
 
               // Setup the click event listeners: simply set the map to Chicago.
               controlUI.addEventListener('click', function() {
-                $scope.addNewEventModal();
+                map.setCenter(chicago);
               });
+
             }
 
             // Remove all markers
@@ -314,12 +311,12 @@
               $scope.addNewEventModal(e.latLng);
             });
 
-            // var centerControlDiv = document.createElement('div');
-            // var centerControl = new CenterControl(centerControlDiv, map);
+            var centerControlDiv = document.createElement('div');
+            var centerControl = new CenterControl(centerControlDiv, map);
 
-            // centerControlDiv.index = 1;
+            centerControlDiv.index = 1;
 
-            // $scope.map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
+            $scope.map.controls[1].push(centerControlDiv);
 
             var request = {
                 method: 'GET',

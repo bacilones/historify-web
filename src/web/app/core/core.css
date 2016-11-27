@@ -65,6 +65,7 @@ button {
     color:white;
     padding: 5px 0px;
     margin-bottom: 0px;
+    border : 0px;
 }
 
 .navbar-inverse{
