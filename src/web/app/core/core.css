@@ -253,3 +253,8 @@ footer p {
 .navbar-default .navbar-brand {
     color: #ffffff;
 }
+
+.title{
+    font-size: 25px;
+    font-weight: bold;
+}

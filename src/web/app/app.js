@@ -348,8 +348,14 @@
                            align: 'center'
                         });
 
-
                         marker.addListener('click', function () {
+
+                            var windowContent = '<div class="title">'+mark.name+'</div>'+
+                                                '<div class="body">'+mark.large_description+'</div>';
+
+                            var eventMarkerInfoWindow = new google.maps.InfoWindow({
+                                content : windowContent
+                            });
 
                             var request = {
                                 method: 'GET',
@@ -360,6 +366,8 @@
                                 .then(result => {
                                     $scope.removeAllMarkers();
                                     $scope.removeAllLabels();
+
+                                    eventMarkerInfoWindow.open($scope.map, marker);
 
                                     result.data.point_of_views.forEach(pov => {
 
