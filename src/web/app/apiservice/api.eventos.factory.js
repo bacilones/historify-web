@@ -1,9 +1,9 @@
-(function() {
+/*(function() {
 'use strict';
 
     angular
         .module('historify.apiservice')
-        .factory('Evento', evento);
+        .factory('evento', evento);
 
     evento.$inject = ['$http'];
     
@@ -28,4 +28,4 @@
         
         
     }
-})();
+})();*/

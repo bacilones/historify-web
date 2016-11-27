@@ -2,7 +2,7 @@
 (function(){
     'use strict';
 
-    var app = angular.module('historify', ['uiGmapgoogle-maps'])
+    var app = angular.module('historify', ['uiGmapgoogle-maps', 'satellizer'])
         .config(['uiGmapGoogleMapApiProvider', function (GoogleMapApi) {
             GoogleMapApi.configure({
                 key: 'AIzaSyDbVhxwEY-MeBCZ_Guk-pl7tqljbAwh5sM',
@@ -10,8 +10,12 @@
                 libraries: 'weather,geometry,visualization'
             })
             //console.log(GoogleMapApi);
-        }]);
-    
+        }])
+        .config(function ($authProvider) {
+            $authProvider.facebook({
+                clientId: '1612734245701460'
+            });
+        });
 
     app.controller('MapController', function ($scope, $http, uiGmapGoogleMapApi) {
 
