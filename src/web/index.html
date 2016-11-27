@@ -48,9 +48,9 @@
             </nav>
         </header>
 
-        <div id="map"></div>
-
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbVhxwEY-MeBCZ_Guk-pl7tqljbAwh5sM" type="text/javascript"></script>
+        <div id="map" ng-controller="MapController">
+            <ui-gmap-google-map center='map.center' zoom='map.zoom'></ui-gmap-google-map>
+        </div>
         
         <div id="wrapper"> 
         
